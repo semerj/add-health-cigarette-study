@@ -1,7 +1,9 @@
-source('merge_data.R')
 library(lme4)
 library(geepack)
 
+
+# Read csv
+add = read.csv('add_data.csv')
 
 # Remove observations with missing data
 add$weight = with(add, ifelse(weight %in% c(996, 998, 999), NA, weight))
