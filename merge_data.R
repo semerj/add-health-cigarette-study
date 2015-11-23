@@ -82,3 +82,6 @@ add = rbind(df1[df1$AID %in% aid, c("AID", long_cols)],
 
 # Add baseline data
 add = add %>% inner_join(df1[,c(base_cols)], by=c("AID" = "AID"))
+
+# Write to csv
+write.csv(add, 'add_data.csv', row.names = FALSE)
