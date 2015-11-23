@@ -1,6 +1,7 @@
 library(dplyr)
 library(stringr)
 
+
 fnames = list.files(full.names=TRUE, recursive=TRUE, pattern=".*inhome_dvn.tab")
 
 df1 = read.delim(fnames[1])
@@ -72,23 +73,12 @@ base_cols = c("AID", "BIO_SEX", "H1GI1M", "H1GI1Y", "H1GI8")
 long_cols = c("wave", "month", "day", "year", "intercourse", "weight",
               "depressed", "cigarettes", "marijuana", "drunk")
 
-aid = Reduce(intersect, list(df1$AID, df2$AID, df3$AID, df$AID))
-add = rbind(df1[df$AID %in% aid, c("AID", long_cols)],
-            df2[df$AID %in% aid, c("AID", long_cols)],
-            df3[df$AID %in% aid, c("AID", long_cols)],
-            df4[df$AID %in% aid, c("AID", long_cols)])
+# Find subjects recorded in all 4 waves of study
+aid = Reduce(intersect, list(df1$AID, df2$AID, df3$AID, df4$AID))
+add = rbind(df1[df1$AID %in% aid, c("AID", long_cols)],
+            df2[df2$AID %in% aid, c("AID", long_cols)],
+            df3[df3$AID %in% aid, c("AID", long_cols)],
+            df4[df4$AID %in% aid, c("AID", long_cols)])
 
+# Add baseline data
 add = add %>% inner_join(df1[,c(base_cols)], by=c("AID" = "AID"))
-
-add$weight = with(add, ifelse(weight %in% c(996, 998, 999), NA, weight))
-add$drunk = as.factor(add$drunk)
-add$intercourse = as.factor(add$intercourse)
-add$depressed = as.factor(add$depressed)
-add$H1GI8 = as.factor(add$H1GI8)
-
-add$year = ifelse(add$wave %in% c(1,2), paste0(19, add$year), add$year)
-add$date = with(add, as.Date(paste0(month, "-", day, "-", year), format="%m-%d-%Y"))
-add$bday = as.Date(paste0(add$H1GI1M, "-15-19", add$H1GI1Y), format="%m-%d-%Y")
-add$age = with(add, round(as.numeric(difftime(date, bday)/365.25), 1))
-
-model = glm(weight ~ depressed + age + drunk + intercourse, data = add, family="gaussian")
