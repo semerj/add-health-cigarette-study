@@ -1,6 +1,9 @@
+# Longitudinal Data Analysis
+### The National Longitudinal Study of Adolescent to Adult Health
+
 We examined three substance use behaviors: daily smoking, past-month marijuana use, and regular HED. Smoking was assessed as days smoked out of the past 30 days; this was dichotomized to indicate whether individuals smoked on all of the past 30 days. Marijuana use was assessed as times used during the past month; this was dichotomized into any/no past month marijuana use. Frequency of HED (WaveI–III definition: 5+ drinks; Wave IV definition: 4+ drinks for females, 5+ drinks formales) during the past year was assessed; this was dichotomized into any/no regular past year HED, where regular HED was defined as at least one time per month for the past 12 months
 
-# Baseline variables
+### Baseline variables
 | variable      | code    | wave | description
 | :------------ | :------ | :--  | :----------
 | sex           | BIO_SEX | 1    | Interviewer, please confirm that R’s sex is (male) female. (Ask if necessary.)
@@ -9,7 +12,7 @@ We examined three substance use behaviors: daily smoking, past-month marijuana u
 | race1         | H1GI8   | 1    | Which one category best describes your racial background?
 | race3         | H3OD6   | 3    | Which one category best describes your racial background?
 
-# Meta data
+### Meta data
 | variable      | code    | wave | description
 | :------------ | :------ | :--- | :----------
 | month         | IMONTH  | 1    |  Month interview completed
@@ -25,7 +28,7 @@ We examined three substance use behaviors: daily smoking, past-month marijuana u
 | year          | IYEAR3  | 3    |  Year interview completed
 | year          | IYEAR4  | 4    |  Year interview completed
 
-# Longitudinal
+### Longitudinal
 | variable      | code    | wave | description
 | :------------ | :------ | :--- | :----------
 | intercourse   | H1CO1   | 1    | Have you ever had sexual intercourse?
