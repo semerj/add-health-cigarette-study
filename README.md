@@ -14,8 +14,8 @@
 | [`race3`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/codebookssearch?field=varname&match=contains&text=H3OD6) | H3OD6 | 3    | Which one category best describes your racial background?
 | [`intercourse`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=726) | H1CO1, H2CO2 | 1,2 | Have you ever had sexual intercourse?
 | [`intercourse`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=726) | H3SE1, H4SE6 | 3,4 | Have you ever had vaginal intercourse? (Vaginal intercourse is when a man inserts his penis into a woman's vagina.)
-| [`vaginal`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=727) | 3 | How old were you the first time you had vaginal intercourse?
-| [`oral`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=809) | 4 | How old were you the very first time you had oral sex?
+| [`vaginal`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=727) | H3SE2 | 3 | How old were you the first time you had vaginal intercourse?
+| [`oral`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=809) | H4SE10 | 4 | How old were you the very first time you had oral sex?
 
 ### Meta data
 
