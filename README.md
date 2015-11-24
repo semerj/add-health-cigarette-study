@@ -66,6 +66,7 @@
 | H4TO5   | 4    | During the past 30 days, on how many days did you smoke cigarettes?
 
 [`marijuana`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=2123)
+
 | code    | wave | description
 | :------ | :--- | :----------
 | H1TO32  | 1    | During the past 30 days, how many times did you use marijuana?
