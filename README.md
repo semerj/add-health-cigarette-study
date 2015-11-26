@@ -1,7 +1,22 @@
-# Longitudinal Data Analysis
-### The National Longitudinal Study of Adolescent to Adult Health
+## Longitudinal Data Analysis of The National Longitudinal Study of Adolescent to Adult Health
 
-> We examined three substance use behaviors: daily smoking, past-month marijuana use, and regular HED. Smoking was assessed as days smoked out of the past 30 days; this was dichotomized to indicate whether individuals smoked on all of the past 30 days. Marijuana use was assessed as times used during the past month; this was dichotomized into any/no past month marijuana use. Frequency of HED (WaveI–III definition: 5+ drinks; Wave IV definition: 4+ drinks for females, 5+ drinks formales) during the past year was assessed; this was dichotomized into any/no regular past year HED, where regular HED was defined as at least one time per month for the past 12 months
+### Measures
+
+> Depressive symptoms during the past seven days were measured at each wave with a subset of nine items from the Center for Epidemiological Studies Depression Scale (CES-D). This short form of the CES-D has good reliability and has been used widely in studies of adolescent depression (Dunn et al., 2013). In our overall sample, the Cronbach’s = 0.80; internal consistency was invariant across age. The items included:
+> * "bothered by things that usually don't bother you"
+> * "could not shakeoff the blues"
+> * "felt that you were just as good as other people [reverse coded]"
+> * "had trouble keeping your mind on what you were doing"
+> * "were depressed"
+> * "were too tired to do things"
+> * "enjoyed life [reverse coded]"
+> * "were sad"
+> * "felt that people disliked you"
+
+> Each item was rated on a scale of 0–3, representing whether an individual experienced the symptom "never/rarely" to "most/all of the time."
+
+> We examined three substance use behaviors: daily smoking, past-month marijuana use, and regular heavy episodic drinking (HED). Smoking was assessed as days smoked out of the past 30 days; this was dichotomized to indicate whether individuals smoked on all of the past 30 days. Marijuana use was assessed as times used during the past month; this was dichotomized into any/no past month marijuana use. Frequency of HED (Wave I–III definition: 5+ drinks; Wave IV definition: 4+ drinks for females, 5+ drinks for males) during the past year was assessed; this was dichotomized into any/no regular past year HED, where regular HED was defined as at least one time per month for the past 12 months.
+
 
 ### Baseline variables
 
@@ -10,12 +25,7 @@
 | [`sex`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/codebookssearch?field=varname&match=contains&text=BIO_SEX) | BIO_SEX | 1    | Interviewer, please confirm that R’s sex is (male) female. (Ask if necessary.)
 | [`bday_m`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=2) | H1GI1M | 1    | What is your birth date? (month)
 | [`bday_y`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=2) | H1GI1Y | 1    | What is your birth date? (year)
-| [`race1`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/codebookssearch?field=varname&match=contains&text=H1GI8+++) | H1GI8 | 1    | Which one category best describes your racial background?
-| [`race3`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/codebookssearch?field=varname&match=contains&text=H3OD6) | H3OD6 | 3    | Which one category best describes your racial background?
-| [`intercourse`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=726) | H1CO1, H2CO2 | 1,2 | Have you ever had sexual intercourse?
-| [`intercourse`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=726) | H3SE1, H4SE6 | 3,4 | Have you ever had vaginal intercourse? (Vaginal intercourse is when a man inserts his penis into a woman's vagina.)
-| [`vaginal`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=727) | H3SE2 | 3 | How old were you the first time you had vaginal intercourse?
-| [`oral`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=809) | H4SE10 | 4 | How old were you the very first time you had oral sex?
+
 
 ### Meta data
 
@@ -27,25 +37,70 @@
 | IDAY    | 1-4  |  Day interview completed
 | IYEAR   | 1-4  |  Year interview completed
 
-### Longitudinal
+### Depedent Variable
 
-[`weight`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=203)
-
-| code    | wave | description
-| :------ | :--- | :----------
-| H1GH60  | 1    | What is your weight?
-| H2GH53  | 2    | What is your weight?
-| H3DA44  | 3    | What is your current weight in pounds?
-| H4GH6   | 4    | What is your current weight in pounds?
-
-[`think_weight`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=409)
+[`disliked`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1067)
 
 | code    | wave | description
 | :------ | :--- | :----------
-| H1GH28  | 1    | How do you think of yourself in terms of weight?
-| H2GH30  | 2    | How do you think of yourself in terms of weight?
-| H3GH2   | 3    | How do you think of yourself in terms of weight?
-| H4GH7   | 4    | How do you think of yourself in terms of weight?
+| H1FS17  | 1    | How often was the following true during the past week? You felt that people disliked you.
+| H2FS17  | 2    | How often was the following true during the past seven days? You felt that people disliked you.
+| H3SP13  | 3    | How often was the following true during the past seven days? You felt that people disliked you.
+| H4MH27  | 4    | How often was the following true during the past seven days? You felt that people disliked you.
+
+[`sad`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1066)
+
+| code    | wave | description
+| :------ | :--- | :----------
+| H1FS16  | 1    | How often was the following true during the past week? You felt sad.
+| H2FS16  | 2    | How often was the following true during the past seven days? You felt sad.
+| H3SP12  | 3    | How often was the following true during the past seven days? You were sad.
+| H4MH26  | 4    | How often was the following true during the past seven days? You felt sad.
+
+[`enjoy_life`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1065)
+
+| code    | wave | description
+| :------ | :--- | :----------
+| H1FS15  | 1    | How often was the following true during the past week? You enjoyed life.
+| H2FS15  | 2    | How often was the following true during the past seven days? You enjoyed life.
+| H3SP11  | 3    | How often was the following true during the past seven days? You enjoyed life.
+| H4MH25  | 4    | How often was the following true during the past seven days? You enjoyed life.
+
+[`tired`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1056)
+
+| code    | wave | description
+| :------ | :--- | :----------
+| H1FS7   | 1    | How often was the following true during the past week? You felt that you were too tired to do things.
+| H2FS7   | 2    | How often was the following true during the past seven days? You felt that you were too tired to do things.
+| H3SP10  | 3    | How often was the following true during the past seven days? You were too tired to do things.
+| H4MH23  | 4    | How often was the following true during the past seven days? You felt that you were too tired to do things.
+
+[`not_good`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1053)
+
+| code    | wave | description
+| :------ | :--- | :----------
+| H1FS4   | 1    | How often was the following true during the past week? You felt you were just as good as other people.
+| H2FS4   | 2    | How often was the following true during the past week? You felt you were just as good as other people.
+| H3SP7   | 3    | How often was the following true during the past seven days? You felt you were just as good as other people.
+| H4MH20  | 4    | How often was the following true during the past seven days? You felt you were just as good as other people.
+
+[`bothered`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1050)
+
+| code    | wave | description
+| :------ | :--- | :----------
+| H1FS1   | 1    | How often was the following true during the past week? You were bothered by things that don't usually bother you.
+| H2FS1   | 2    | How often was the following true during the past week? You were bothered by things that don't usually bother you.
+| H3SP5   | 3    | How often was the following true during the past seven days? You were bothered by things that usually don't bother you.
+| H4MH18  | 4    | How often was the following true during the past seven days? You were bothered by things that usually don't bother you.
+
+[`blues`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1052)
+
+| code    | wave | description
+| :------ | :--- | :----------
+| H1FS3   | 1    | How often was the following true during the past week? You felt that you could not shake off the blues, even with help from your family and your friends.
+| H2FS3   | 2    | How often was the following true during the past week? You felt that you could not shake off the blues, even with help from your family and your friends.
+| H3SP6   | 3    | How often was the following true during the past seven days? You could not shake off the blues, even with help from your family and your friends.
+| H4MH19  | 4    | How often was the following true during the past seven days? You could not shake off the blues, even with help from your family and your friends.
 
 [`depressed`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1055)
 
@@ -56,7 +111,9 @@
 | H3SP9   | 3    | How often was the following true during the past seven days? You were depressed.
 | H4MH22  | 4    | How often was the following true during the past seven days? You felt depressed.
 
-[`cigarettes`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=2076)
+### Longitudinal covariates
+
+[`cigarettes`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=2075)
 
 | code    | wave | description
 | :------ | :--- | :----------
@@ -83,3 +140,11 @@
 | H3TO43  | 3    | During the past 12 months, on how many days have you been drunk or very high on alcohol?
 | H4TO38  | 4    | During the past 12 months, on how many days have you been drunk or very high on alcohol?
 
+[`drink`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=2008)
+
+| code    | wave | description
+| :------ | :--- | :----------
+| H1TO15  | 1    | During the past 12 months, on how many days did you drink alcohol?
+| H2TO19  | 2    | During the past 12 months, on how many days did you drink alcohol?
+| H3TO38  | 3    | During the past 12 months, on how many days did you drink alcohol?
+| H4TO35  | 4    | During the past 12 months, on how many days did you drink alcohol?

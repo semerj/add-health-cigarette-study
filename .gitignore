@@ -1,5 +1,5 @@
 articles/
-data/
+raw-data/
 
 # History files
 .Rhistory
