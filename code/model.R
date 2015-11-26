@@ -17,26 +17,30 @@ add$cigarettes = as.factor(add$cigarettes)
 ################################################################################
 
 # Linear Regression
-model_glm = glm(CESD ~ wave + sex + age + drunk + marijuana + cigarettes,
+model_glm = glm(CESD ~ wave + sex + age + drink + marijuana + cigarettes,
                 family="gaussian",
                 data = add)
+summary(model_glm)
 
 # GEE - exchangeable
-m_gee_exc = geeglm(CESD ~ wave + age + sex + drunk + marijuana + cigarettes,
+m_gee_exc = geeglm(CESD ~ wave + age + sex + drink + marijuana + cigarettes,
                    id=AID,
                    corstr='exchangeable',
                    waves=wave,
                    family="gaussian",
                    data=add)
+summary(m_gee_exc)
 
 # GEE - indepedent
-m_gee_ind = geeglm(CESD ~ wave + age + sex + drunk + marijuana + cigarettes,
+m_gee_ind = geeglm(CESD ~ wave + age + sex + drink + marijuana + cigarettes,
                    id=AID,
                    corstr='independence',
                    waves=wave,
                    family="gaussian",
                    data=add)
+summary(m_gee_ind)
 
 # Mixed Effects
-m_mix = lmer(CESD ~ age + sex + drunk + marijuana + cigarettes + (1|AID) + (1|wave),
+m_mix = lmer(CESD ~ age + sex + drink + marijuana + cigarettes + (1|AID),
              data=add)
+summary(m_mix)
