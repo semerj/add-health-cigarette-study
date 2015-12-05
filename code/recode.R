@@ -1,17 +1,13 @@
-add = read.csv('../data/add_merge.csv')
+load('../data/add_merge.RData')
 
 ################################################################################
 ##############################  Response variable  #############################
 ################################################################################
 # CESD: numeric
-add = add[add$disliked   %in% 0:3 &
-          add$sad        %in% 0:3 &
-          add$enjoy_life %in% 0:3 &
-          add$tired      %in% 0:3 &
-          add$bothered   %in% 0:3 &
-          add$blues      %in% 0:3 &
-          add$not_good   %in% 0:3 &
-          add$depressed  %in% 0:3, ]
+add = add[add$disliked   %in% 0:3 & add$sad        %in% 0:3 &
+          add$enjoy_life %in% 0:3 & add$tired      %in% 0:3 &
+          add$bothered   %in% 0:3 & add$blues      %in% 0:3 &
+          add$not_good   %in% 0:3 & add$depressed  %in% 0:3, ]
 
 # Reverse code enjoy_life
 add$enjoy_life = ifelse(add$enjoy_life == 3, 0,
@@ -25,16 +21,16 @@ add$CESD = with(add, disliked + sad + enjoy_life + tired +
 ############################  Baseline covariates  #############################
 ################################################################################
 # Sex: categorical
-add$sex = ifelse(add$sex == 1, 0, 1)
+add$sex = ifelse(add$sex == 1, "male", "female")
 add$sex = as.factor(add$sex)
 
 # Race: categorical
-add$race = ifelse(add$H1GI4  == 1, 1, NA)        # Hispanic, All Races
-add$race = ifelse(add$H1GI6B == 1, 2, add$race)  # Black or African American, Non-Hispanic
-add$race = ifelse(add$H1GI6D == 1, 3, add$race)  # Asian, Non-Hispanic
-add$race = ifelse(add$H1GI6C == 1, 4, add$race)  # Native American, Non-Hispanic
-add$race = ifelse(add$H1GI6E == 1, 5, add$race)  # Other, Non-Hispanic
-add$race = ifelse(add$H1GI6A == 1, 0, add$race)  # White, Non-Hispanic
+add$race = ifelse(add$H1GI4  == 1, "hispanic all races", NA)        # Hispanic, All Races
+add$race = ifelse(add$H1GI6B == 1, "african american", add$race)  # Black or African American, Non-Hispanic
+add$race = ifelse(add$H1GI6D == 1, "asian non-hispanic", add$race)  # Asian, Non-Hispanic
+add$race = ifelse(add$H1GI6C == 1, "native american", add$race)  # Native American, Non-Hispanic
+add$race = ifelse(add$H1GI6E == 1, "other non-hispanic", add$race)  # Other, Non-Hispanic
+add$race = ifelse(add$H1GI6A == 1, "white non-hispanic", add$race)  # White, Non-Hispanic
 
 # Parent_ed: categorical
 add$parent1_ed = add$PA12 # How far did you go in school?
@@ -44,7 +40,7 @@ add$parent2_ed = add$PB8  # How far did your current (spouse/partner) go in scho
 ################################ Time covariate  ###############################
 ################################################################################
 # Wave: categorical
-add$wave = as.factor(add$wave)
+# add$wave = as.factor(add$wave)
 
 ################################################################################
 ##########################  Longitudinal covariates  ###########################
@@ -63,22 +59,15 @@ add$cigarettes = ifelse(add$cigarettes == 30, 1, add$cigarettes)
 add = add[add$cigarettes %in% c(0,1),]
 add$cigarettes = as.factor(add$cigarettes)
 
-# Drunk: binary
-drunk_table = data.frame(code_12 = c(7:1), code_34 = c(0:6))
-drunk_vlookup = function(val, df, col) {
+
+drink_table = data.frame(code_12 = c(7:1), code_34 = c(0:6))
+drink_vlookup = function(val, df, col) {
   df[df[1] == val, col][1]
 }
-drunk_codes_34 = sapply(add[add$drunk %in% c(1:7) & add$wave %in% c(1,2), "drunk"],
-                        function(x) drunk_vlookup(x, drunk_table, "code_34"))
-add[add$drunk %in% c(1:7) & add$wave %in% c(1,2), "drunk"] = drunk_codes_34
-add = add[add$drunk %in% c(0:6, 97),]
-add$drunk = ifelse(add$drunk == 97, 0, add$drunk)  # legitmate skip == no drunk?
-add$drunk = ifelse(add$drunk %in%  0, 0, 1)        # dichotomize
-add$drunk = as.factor(add$drunk)
 
 # Drink: binary
 drink_codes_34 = sapply(add[add$drink %in% c(1:7) & add$wave %in% c(1,2), "drink"],
-                        function(x) drunk_vlookup(x, drunk_table, "code_34"))
+                        function(x) drink_vlookup(x, drink_table, "code_34"))
 add[add$drink %in% c(1:7) & add$wave %in% c(1,2), "drink"] = drink_codes_34
 add = add[add$drink %in% c(0:6, 97),]
 add$drink = ifelse(add$drink == 97, 0, add$drink)  # legitmate skip == no drink?
@@ -101,8 +90,8 @@ add$marijuana = as.factor(add$marijuana)
 ################################################################################
 add = add[complete.cases(add),]  # apply(add, 2, function(x) sum(is.na(x)))
 
-
 # Write to csv
-cols = c("AID", "CESD", "wave", "sex", "race", "cigarettes", "marijuana",
-         "drunk", "drink", "age")
-write.csv(add[,cols], '../data/add_recode.csv', row.names = FALSE)
+cols = c("AID", "CESD", "wave", "sex", "race", "cigarettes", "marijuana", "drink", "age")
+add = add[,cols]
+
+save(add, file='../data/add_recode.RData')

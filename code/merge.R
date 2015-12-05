@@ -1,10 +1,10 @@
 library(dplyr)
 library(stringr)
 
-setwd("../")
-load("data/add_data.RData")
+setwd('../')
+load('data/add_data.RData')
 
-# fnames = list.files(full.names=TRUE, recursive=TRUE, pattern=".*inhome_dvn.tab")
+# fnames = list.files(full.names=TRUE, recursive=TRUE, pattern='.*inhome_dvn.tab')
 # df1 = read.delim(fnames[1])
 # df2 = read.delim(fnames[2])
 # df3 = read.delim(fnames[3])
@@ -98,28 +98,29 @@ df4 = df4 %>%
 ) %>%
   mutate(wave = 4)
 
-race_cols = c("H1GI4", "H1GI6A", "H1GI6B", "H1GI6C", "H1GI6D", "H1GI6E")
-parent_ed_cols = c("PA12", "PB8")
-base_cols_1 = c("AID", "BIO_SEX", "H1GI1M", "H1GI1Y", race_cols, parent_ed_cols)
-long_cols = c("disliked", "sad", "enjoy_life", "tired", "bothered", "blues",
-              "not_good", "depressed", "cigarettes", "marijuana", "drunk", "drink",
-              "month", "year", "day", "wave")
+race_cols = c('H1GI4', 'H1GI6A', 'H1GI6B', 'H1GI6C', 'H1GI6D', 'H1GI6E')
+parent_ed_cols = c('PA12', 'PB8')
+base_cols_1 = c('AID', 'BIO_SEX', 'H1GI1M', 'H1GI1Y', race_cols, parent_ed_cols)
+long_cols = c('disliked', 'sad', 'enjoy_life', 'tired', 'bothered', 'blues',
+              'not_good', 'depressed', 'cigarettes', 'marijuana', 'drunk', 'drink',
+              'month', 'year', 'day', 'wave')
 
 # Find subjects recorded in all 4 waves of study
 aid = Reduce(intersect, list(df1$AID, df2$AID, df3$AID, df4$AID))
-add = rbind(df1[df1$AID %in% aid, c("AID", long_cols)],
-            df2[df2$AID %in% aid, c("AID", long_cols)],
-            df3[df3$AID %in% aid, c("AID", long_cols)],
-            df4[df4$AID %in% aid, c("AID", long_cols)])
+add = rbind(df1[df1$AID %in% aid, c('AID', long_cols)],
+            df2[df2$AID %in% aid, c('AID', long_cols)],
+            df3[df3$AID %in% aid, c('AID', long_cols)],
+            df4[df4$AID %in% aid, c('AID', long_cols)])
 
 # Add baseline data
 add = add %>%
-  inner_join(df1[,c(base_cols_1)], by=c("AID" = "AID"))
+  inner_join(df1[,c(base_cols_1)], by=c('AID' = 'AID'))
 
 # Rename baseline variables
-colnames(add)[colnames(add) == "BIO_SEX"] = 'sex'
-colnames(add)[colnames(add) == "H1GI1M"] = 'bday_m'
-colnames(add)[colnames(add) == "H1GI1Y"] = 'bday_y'
+colnames(add)[colnames(add) == 'BIO_SEX'] = 'sex'
+colnames(add)[colnames(add) == 'H1GI1M'] = 'bday_m'
+colnames(add)[colnames(add) == 'H1GI1Y'] = 'bday_y'
 
 # Write to csv
-write.csv(add, './data/add_merge.csv', row.names = FALSE)
+save(add, file='./data/add_merge.RData')
+# write.csv(add, './data/add_merge.csv', row.names = FALSE)

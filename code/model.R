@@ -1,46 +1,77 @@
-library(lme4)
+library(dplyr)
+library(tidyr)
+library(gee)
 library(geepack)
+library(lme4)
 
-add = read.csv('../data/add_recode.csv')
+load('../data/add_recode.RData')
 
-add$CESD = as.numeric(add$CESD)
-add$age = as.numeric(add$age)
-add$sex = as.factor(add$sex)
-add$wave = as.factor(add$wave)
-add$drink = as.factor(add$drink)
-add$drunk = as.factor(add$drunk)
-add$marijuana = as.factor(add$marijuana)
-add$cigarettes = as.factor(add$cigarettes)
+# Include cases present in all 4 waves
+# add = add %>%
+#   group_by(AID) %>%
+#   summarize(count=n()) %>%
+#   filter(count == 4) %>%
+#   select(AID) %>%
+#   inner_join(add, on=c('AID' = 'AID')) %>%
+#   arrange(AID, wave)
 
 ################################################################################
-###################################  Models  ###################################
+##############################  Cigarette model  ###############################
 ################################################################################
 
-# Linear Regression
-model_glm = glm(CESD ~ wave + sex + age + drink + marijuana + cigarettes,
-                family="gaussian",
-                data = add)
-summary(model_glm)
+add_cig = add %>%
+  filter(wave %in% 2:4) %>%
+  inner_join(
+    add %>%
+      filter(wave == 1) %>%
+      group_by(AID) %>%
+      mutate(
+        CESD_0 = CESD
+        ) %>%
+      select(AID, CESD_0),
+    by = c('AID' = 'AID')
+  ) %>%
+  mutate(wave = as.factor(wave),
+         cigarettes = as.numeric(as.character(cigarettes)),
+         race = factor(race,
+                       levels = c('white non-hispanic', 'african american',
+                                  'asian non-hispanic', 'hispanic all races',
+                                  'native american', 'other non-hispanic')),
+         CESD_diff = CESD - CESD_0
+         ) %>%
+  select(cigarettes, AID, wave, age, sex, CESD, race, CESD_diff, CESD_0)
 
-# GEE - exchangeable
-m_gee_exc = geeglm(CESD ~ wave + age + sex + drink + marijuana + cigarettes,
-                   id=AID,
-                   corstr='exchangeable',
-                   waves=wave,
-                   family="gaussian",
-                   data=add)
-summary(m_gee_exc)
+################################################################################
+##############################  Cigarette models  ##############################
+################################################################################
+# time-dependent predictors
+#   - wave
+#   - age
+# time-independent predictors
+#   - sex
+#   - CESD_0
+# Time-varying covariates
+#   - CESD_diff
 
-# GEE - indepedent
-m_gee_ind = geeglm(CESD ~ wave + age + sex + drink + marijuana + cigarettes,
-                   id=AID,
-                   corstr='independence',
-                   waves=wave,
-                   family="gaussian",
-                   data=add)
-summary(m_gee_ind)
+# formulas
+fm = cigarettes ~ sex + age + wave + CESD_0 + CESD_diff
+fm_mix = update(fm, ~ . + (1|AID))
 
-# Mixed Effects
-m_mix = lmer(CESD ~ age + sex + drink + marijuana + cigarettes + (1|AID),
-             data=add)
-summary(m_mix)
+# cross-sectional model
+glm_m   = glm(fm,       family='binomial', data=add_cig)
+
+# marginal model
+gee_ind = geeglm(fm,    family='binomial', data=add_cig, id=AID, corstr='independence')
+gee_exc = geeglm(fm,    family='binomial', data=add_cig, id=AID, corstr='exchangeable')
+gee_ar  = geeglm(fm,    family='binomial', data=add_cig, id=AID, corstr='ar1')
+
+# mixed effects model
+# help w/ convergence: https://rstudio-pubs-static.s3.amazonaws.com/33653_57fc7b8e5d484c909b615d8633c01d51.html
+mix_m   = glmer(fm_mix, family='binomial', data=add_cig,
+                control=glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
+
+summary(glm_m)
+summary(gee_ind)
+summary(gee_exc)
+summary(gee_ar)
+summary(mix_m)
