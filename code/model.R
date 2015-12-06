@@ -3,43 +3,10 @@ library(tidyr)
 library(gee)
 library(geepack)
 library(lme4)
+library(arm)
 
-load('../data/add_recode.RData')
-
-# Include cases present in all 4 waves
-# add = add %>%
-#   group_by(AID) %>%
-#   summarize(count=n()) %>%
-#   filter(count == 4) %>%
-#   select(AID) %>%
-#   inner_join(add, on=c('AID' = 'AID')) %>%
-#   arrange(AID, wave)
-
-################################################################################
-##############################  Cigarette model  ###############################
-################################################################################
-
-add_cig = add %>%
-  filter(wave %in% 2:4) %>%
-  inner_join(
-    add %>%
-      filter(wave == 1) %>%
-      group_by(AID) %>%
-      mutate(
-        CESD_0 = CESD
-        ) %>%
-      select(AID, CESD_0),
-    by = c('AID' = 'AID')
-  ) %>%
-  mutate(wave = as.factor(wave),
-         cigarettes = as.numeric(as.character(cigarettes)),
-         race = factor(race,
-                       levels = c('white non-hispanic', 'african american',
-                                  'asian non-hispanic', 'hispanic all races',
-                                  'native american', 'other non-hispanic')),
-         CESD_diff = CESD - CESD_0
-         ) %>%
-  select(cigarettes, AID, wave, age, sex, CESD, race, CESD_diff, CESD_0)
+source('./utils.R')
+load('../data/add_cig.RData')
 
 ################################################################################
 ##############################  Cigarette models  ##############################
@@ -54,24 +21,55 @@ add_cig = add %>%
 #   - CESD_diff
 
 # formulas
-fm = cigarettes ~ sex + age + wave + CESD_0 + CESD_diff
-fm_mix = update(fm, ~ . + (1|AID))
+# fm1 = cigarettes ~ sex + age * wave + CESD_0 + CESD_diff
+fm0 = cigarettes ~ sex + CESD_0 + CESD_diff + age
 
 # cross-sectional model
-glm_m   = glm(fm,       family='binomial', data=add_cig)
+glm_m0 = glm(fm0, family='binomial', data=add_cig)
 
 # marginal model
-gee_ind = geeglm(fm,    family='binomial', data=add_cig, id=AID, corstr='independence')
-gee_exc = geeglm(fm,    family='binomial', data=add_cig, id=AID, corstr='exchangeable')
-gee_ar  = geeglm(fm,    family='binomial', data=add_cig, id=AID, corstr='ar1')
+gee_ind =  geeglm(fm0, family='binomial', data=add_cig, id=AID, corstr='independence')
+gee_ind2 = gee(fm0,    family='binomial', data=add_cig, id=AID, corstr='independence')
+gee_exc =  geeglm(fm0, family='binomial', data=add_cig, id=AID, corstr='exchangeable')
+gee_exc2 = gee(fm0,    family='binomial', data=add_cig, id=AID, corstr='exchangeable')
+# gee_ar =   geeglm(fm0, family='binomial', data=add_cig, id=AID, corstr='ar1')
+# gee_ar2 =  gee(fm0,    family='binomial', data=add_cig, id=AID, corstr='AR-M')
 
 # mixed effects model
 # help w/ convergence: https://rstudio-pubs-static.s3.amazonaws.com/33653_57fc7b8e5d484c909b615d8633c01d51.html
-mix_m   = glmer(fm_mix, family='binomial', data=add_cig,
-                control=glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
+fm_mix = cigarettes ~ sex + CESD_0 + CESD_diff
+mix_m0 = glmer(update(fm_mix, ~ . + (1|AID)),
+               family='binomial', data=add_cig,
+               control=glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
 
-summary(glm_m)
+mix_m1 = glmer(update(fm_mix, ~ . + (1 + CESD_diff|AID)),
+               family='binomial', data=add_cig,
+               control=glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
+#
+# mix_m2 = glmer(update(fm_mix, ~ . + (1|wave)),
+#                family='binomial', data=add_cig)
+#
+# mix_m3 = glmer(update(fm_mix, ~ . + (1|CESD_0)),
+#                family='binomial', data=add_cig)
+#
+# mix_m4 = glmer(update(fm_mix, ~ . + (1|sex)),
+#                family='binomial', data=add_cig)
+
+summary(glm_m0)
 summary(gee_ind)
+summary(gee_ind2)
 summary(gee_exc)
-summary(gee_ar)
-summary(mix_m)
+summary(gee_exc2)
+summary(mix_m0)
+summary(mix_m1)
+
+OR(glm_m0,   'glm',    se='naive')  # Logistic Regression with naive SE
+OR(glm_m0,   'glm',    se='robust', id=add_cig$AID)  # Logistic Regression with robust SE (cluster SE)
+OR(gee_ind,  'geeglm', se='robust') # GEE w/ independent correlation and robust SE
+OR(gee_ind2, 'gee',    se='robust') # GEE w/ independent correlation and robust SE
+OR(gee_ind2, 'gee',    se='naive')  # GEE w/ independent correlation and naive SE
+OR(gee_exc,  'geeglm', se='robust') # GEE w/ exchangeable correlation and robust SE
+OR(gee_exc2, 'gee',    se='robust') # GEE w/ exchangeable correlation and robust SE
+OR(gee_exc2, 'gee',    se='naive')  # GEE w/ exchangeable correlation and naive SE
+OR(mix_m0,   'glmer',  se='naive')  # Simple Random Effects
+OR(mix_m1,   'glmer',  se='naive')  # Mixed Effects w/ random intercept and longitudinal effect
