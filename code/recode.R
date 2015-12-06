@@ -1,7 +1,75 @@
+library(dplyr)
+
 load('../data/add_merge.RData')
 
 ################################################################################
 ##############################  Response variable  #############################
+################################################################################
+# Cigarettes: binary
+# 0 == skip or 0 cigarettes
+# Dichotomized to indicate whether individuals smoked on all the past 30 days
+add$cigarettes = ifelse(add$cigarettes %in% c(97, 997), 0, add$cigarettes)
+add$cigarettes = ifelse(add$cigarettes == 30, 1, add$cigarettes)
+add = add[add$cigarettes %in% c(0,1),]
+add$cigarettes = as.factor(add$cigarettes)
+
+################################################################################
+############################  Baseline covariates  #############################
+################################################################################
+# Sex: categorical
+add$sex = ifelse(add$sex == 1, "male", "female")
+add$sex = as.factor(add$sex)
+
+# Race: categorical
+add$race = ifelse(add$H1GI4  == 1, "hispanic all races", NA)
+add$race = ifelse(add$H1GI6B == 1, "african american", add$race)
+add$race = ifelse(add$H1GI6D == 1, "asian non-hispanic", add$race)
+add$race = ifelse(add$H1GI6C == 1, "native american", add$race)
+add$race = ifelse(add$H1GI6E == 1, "other non-hispanic", add$race)
+add$race = ifelse(add$H1GI6A == 1, "white non-hispanic", add$race)
+
+# Parent_ed: categorical
+# How far did you go in school?
+# add$parent1_ed = ifelse(add$PA12 %in% c(10:12, 96, 97), 0, add$PA12)
+# How far did your current (spouse/partner) go in school?
+# add$parent2_ed = ifelse(add$PB8  %in% c(10:12, 96, 97), 0, add$PB8)
+# add$parent_ed = apply(add[,c('parent1_ed', 'parent2_ed')], 1, max)
+# add$parent_ed = ifelse(add$parent_ed %in% 0:2, '<HS', '>=HS')
+# add$parent_ed = as.factor(add$parent_ed)
+# 0,1,2: not finish or go to high school
+# 3,4,5: finished high school or GED or vocational
+# 6    : trade school after college
+# 7    : college dropout
+# 8,9  : 4 year college and graduate
+# ed_func = function(x) {
+#   if (is.na(x)) {
+#     return(NA)
+#   } else if (x %in% 0:2) {
+#     return('no HS')
+#   } else if (x %in% 3:5) {
+#     return('HS or GED or vocational')
+#   } else if (x == 6) {
+#     return('trade school')
+#   } else if (x == 7) {
+#     return('some college')
+#   } else if (x %in% 8:9) {
+#     return('college or grad')
+#   }
+# }
+# add$parent_ed = sapply(add$parent_ed, function(x) ed_func(x))
+# add = add[complete.cases(add$parent_ed),]
+# add$parent_ed = factor(add$parent_ed,
+#                        levels=c('no HS', 'HS or GED or vocational', 'trade school',
+#                                 'some college', 'college or grad'))
+
+################################################################################
+################################ Time covariate  ###############################
+################################################################################
+# Wave: categorical
+# add$wave = as.factor(add$wave)
+
+################################################################################
+##########################  Longitudinal covariates  ###########################
 ################################################################################
 # CESD: numeric
 add = add[add$disliked   %in% 0:3 & add$sad        %in% 0:3 &
@@ -15,57 +83,20 @@ add$enjoy_life = ifelse(add$enjoy_life == 3, 0,
                                ifelse(add$enjoy_life == 1, 2, 3)))
 
 add$CESD = with(add, disliked + sad + enjoy_life + tired +
-                     bothered + blues + not_good + depressed)
+                  bothered + blues + not_good + depressed)
 
-################################################################################
-############################  Baseline covariates  #############################
-################################################################################
-# Sex: categorical
-add$sex = ifelse(add$sex == 1, "male", "female")
-add$sex = as.factor(add$sex)
-
-# Race: categorical
-add$race = ifelse(add$H1GI4  == 1, "hispanic all races", NA)        # Hispanic, All Races
-add$race = ifelse(add$H1GI6B == 1, "african american", add$race)  # Black or African American, Non-Hispanic
-add$race = ifelse(add$H1GI6D == 1, "asian non-hispanic", add$race)  # Asian, Non-Hispanic
-add$race = ifelse(add$H1GI6C == 1, "native american", add$race)  # Native American, Non-Hispanic
-add$race = ifelse(add$H1GI6E == 1, "other non-hispanic", add$race)  # Other, Non-Hispanic
-add$race = ifelse(add$H1GI6A == 1, "white non-hispanic", add$race)  # White, Non-Hispanic
-
-# Parent_ed: categorical
-add$parent1_ed = add$PA12 # How far did you go in school?
-add$parent2_ed = add$PB8  # How far did your current (spouse/partner) go in school?
-
-################################################################################
-################################ Time covariate  ###############################
-################################################################################
-# Wave: categorical
-# add$wave = as.factor(add$wave)
-
-################################################################################
-##########################  Longitudinal covariates  ###########################
-################################################################################
 # Age: numeric
 add$year = as.numeric(ifelse(add$wave %in% c(1,2), paste0(19, add$year), add$year))
 add$date = with(add, as.Date(paste0(month, "-", day, "-", year), format="%m-%d-%Y"))
 add$bday = as.Date(paste0(add$bday_m, "-15-19", add$bday_y), format="%m-%d-%Y")
 add$age = with(add, round(as.numeric(difftime(date, bday)/365.25), 1))
 
-# Cigarettes: binary
-# 0 == skip or 0 cigarettes
-# Dichotomized to indicate whether individuals smoked on all the past 30 days
-add$cigarettes = ifelse(add$cigarettes %in% c(97, 997), 0, add$cigarettes)
-add$cigarettes = ifelse(add$cigarettes == 30, 1, add$cigarettes)
-add = add[add$cigarettes %in% c(0,1),]
-add$cigarettes = as.factor(add$cigarettes)
-
-
+# Drink: binary
 drink_table = data.frame(code_12 = c(7:1), code_34 = c(0:6))
 drink_vlookup = function(val, df, col) {
   df[df[1] == val, col][1]
 }
 
-# Drink: binary
 drink_codes_34 = sapply(add[add$drink %in% c(1:7) & add$wave %in% c(1,2), "drink"],
                         function(x) drink_vlookup(x, drink_table, "code_34"))
 add[add$drink %in% c(1:7) & add$wave %in% c(1,2), "drink"] = drink_codes_34
@@ -86,12 +117,56 @@ add$marijuana = ifelse(add$marijuana == 97, 0, add$marijuana) # legimate skip ==
 add$marijuana = as.factor(add$marijuana)
 
 ################################################################################
-###############################  Missing data  #################################
+##############################  Cigarette Data  ################################
 ################################################################################
-add = add[complete.cases(add),]  # apply(add, 2, function(x) sum(is.na(x)))
 
-# Write to csv
-cols = c("AID", "CESD", "wave", "sex", "race", "cigarettes", "marijuana", "drink", "age")
-add = add[,cols]
+complete_cases = add %>%
+  group_by(AID) %>%
+  summarize(n = n()) %>%
+  ungroup() %>%
+  filter(n == 4) %>%
+  select(AID)
 
-save(add, file='../data/add_recode.RData')
+add_cig = add %>%
+  select(AID, CESD, wave, sex, race, cigarettes, age) %>%
+  filter(wave %in% 2:4) %>%
+  inner_join(
+    # create baseline depression variable
+    add %>%
+      filter(wave == 1) %>%
+      group_by(AID) %>%
+      mutate(
+        CESD_0 = CESD
+      ) %>%
+      select(AID, CESD_0),
+    by = c('AID' = 'AID')
+  ) %>%
+  mutate(wave = as.factor(wave),
+         cigarettes = as.numeric(as.character(cigarettes)),
+         race = factor(race,
+                       levels = c('white non-hispanic', 'african american',
+                                  'asian non-hispanic', 'hispanic all races',
+                                  'native american', 'other non-hispanic')),
+         CESD_diff = CESD - CESD_0,
+         CESD_ntile = ntile(CESD_0, 5)
+  ) %>%
+  select(AID, cigarettes, wave, age, sex, CESD, race, CESD_diff, CESD_0, CESD_ntile) %>%
+  arrange(AID, wave) %>%
+  filter(AID %in% complete_cases$AID)
+
+add_waves = add %>%
+  select(AID, CESD, wave, sex, race, cigarettes, age) %>%
+  mutate(wave = as.factor(wave),
+         cigarettes = as.numeric(as.character(cigarettes)),
+         race = factor(race,
+                       levels = c('white non-hispanic', 'african american',
+                                  'asian non-hispanic', 'hispanic all races',
+                                  'native american', 'other non-hispanic'))
+         ) %>%
+  select(AID, cigarettes, wave, age, sex, CESD, race) %>%
+  arrange(AID, wave) %>%
+  filter(AID %in% complete_cases$AID)
+
+
+save(add_cig, file='../data/add_cig.RData')
+save(add_waves, file='../data/add_waves.RData')
