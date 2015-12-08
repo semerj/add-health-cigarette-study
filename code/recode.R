@@ -28,46 +28,6 @@ add$race = ifelse(add$H1GI6C == 1, "native american", add$race)
 add$race = ifelse(add$H1GI6E == 1, "other non-hispanic", add$race)
 add$race = ifelse(add$H1GI6A == 1, "white non-hispanic", add$race)
 
-# Parent_ed: categorical
-# How far did you go in school?
-# add$parent1_ed = ifelse(add$PA12 %in% c(10:12, 96, 97), 0, add$PA12)
-# How far did your current (spouse/partner) go in school?
-# add$parent2_ed = ifelse(add$PB8  %in% c(10:12, 96, 97), 0, add$PB8)
-# add$parent_ed = apply(add[,c('parent1_ed', 'parent2_ed')], 1, max)
-# add$parent_ed = ifelse(add$parent_ed %in% 0:2, '<HS', '>=HS')
-# add$parent_ed = as.factor(add$parent_ed)
-# 0,1,2: not finish or go to high school
-# 3,4,5: finished high school or GED or vocational
-# 6    : trade school after college
-# 7    : college dropout
-# 8,9  : 4 year college and graduate
-# ed_func = function(x) {
-#   if (is.na(x)) {
-#     return(NA)
-#   } else if (x %in% 0:2) {
-#     return('no HS')
-#   } else if (x %in% 3:5) {
-#     return('HS or GED or vocational')
-#   } else if (x == 6) {
-#     return('trade school')
-#   } else if (x == 7) {
-#     return('some college')
-#   } else if (x %in% 8:9) {
-#     return('college or grad')
-#   }
-# }
-# add$parent_ed = sapply(add$parent_ed, function(x) ed_func(x))
-# add = add[complete.cases(add$parent_ed),]
-# add$parent_ed = factor(add$parent_ed,
-#                        levels=c('no HS', 'HS or GED or vocational', 'trade school',
-#                                 'some college', 'college or grad'))
-
-################################################################################
-################################ Time covariate  ###############################
-################################################################################
-# Wave: categorical
-# add$wave = as.factor(add$wave)
-
 ################################################################################
 ##########################  Longitudinal covariates  ###########################
 ################################################################################
@@ -122,10 +82,14 @@ add$marijuana = as.factor(add$marijuana)
 
 complete_cases = add %>%
   group_by(AID) %>%
-  summarize(n = n()) %>%
+  tally() %>%
   ungroup() %>%
   filter(n == 4) %>%
-  select(AID)
+  select(AID) %>%
+  inner_join(
+    add %>% filter(age > 13 & age <= 15)
+  )
+
 
 add_cig = add %>%
   select(AID, CESD, wave, sex, race, cigarettes, age) %>%
