@@ -1,24 +1,18 @@
 ## Longitudinal Data Analysis of The National Longitudinal Study of Adolescent to Adult Health
 
-### Measures
+### Abstract
 
-> Depressive symptoms during the past seven days were measured at each wave with a subset of nine items from the Center for Epidemiological Studies Depression Scale (CES-D). This short form of the CES-D has good reliability and has been used widely in studies of adolescent depression (Dunn et al., 2013). In our overall sample, the Cronbach’s = 0.80; internal consistency was invariant across age. The items included:
-> * "bothered by things that usually don't bother you"
-> * "could not shakeoff the blues"
-> * "felt that you were just as good as other people [reverse coded]"
-> * "had trouble keeping your mind on what you were doing"
-> * "were depressed"
-> * "were too tired to do things"
-> * "enjoyed life [reverse coded]"
-> * "were sad"
-> * "felt that people disliked you"
+The National Longitudinal Study of Adolescent to Adult Health (Add Health) is alongitudinal study of a nationally representative sample of adolescents in grades 7-12 in the United States during the 1994-95 school year. The Add Health cohort has been followed into young adulthood with four in-home interviews. Add Health combines longitudinal survey data across multiple domains, including substance use and depression.A subset of the the Add Health data was used to study the effect of depression, sex, and age on daily cigarette use over time. A continuous measure of depression was based on a subset of 9 items from Center for Epidemiological Studies Depression Scale (CES-D) was used. Subjects assessed their depressive feelings from the past 7 days and daily cigarette smoking from the last 30 days at each wave.
+Age and sex were both associated with an increase in the odds of daily cigarette smoking. The longitudinal effect of CES-D was also associated with an increase in the odds of smoking, while the baseline effect of CES-D resulted in non-significant results from a Simple Random Effects model. However, GEE models supported a population-based effect from baseline CES-D scores.
 
-> Each item was rated on a scale of 0–3, representing whether an individual experienced the symptom "never/rarely" to "most/all of the time."
+### Data
+Publically available data was obtained online from the [Odum Institute at UNC](http://arc.irss.unc.edu/dvn/dv/addhealth).
 
-> We examined three substance use behaviors: daily smoking, past-month marijuana use, and regular heavy episodic drinking (HED). Smoking was assessed as days smoked out of the past 30 days; this was dichotomized to indicate whether individuals smoked on all of the past 30 days. Marijuana use was assessed as times used during the past month; this was dichotomized into any/no past month marijuana use. Frequency of HED (Wave I–III definition: 5+ drinks; Wave IV definition: 4+ drinks for females, 5+ drinks for males) during the past year was assessed; this was dichotomized into any/no regular past year HED, where regular HED was defined as at least one time per month for the past 12 months.
+### Research QuestionHow are the time-varying and baseline depression levels (as measured by CESDepression Scale) related to the propensity to smoking cigarettes daily amongsurvey respondents?
 
+## Variables
 
-### Baseline variables
+### Baseline
 
 | variable      | code    | wave | description
 | :------------ | :------ | :--  | :----------
@@ -26,18 +20,18 @@
 | [`bday_m`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=2) | H1GI1M | 1    | What is your birth date? (month)
 | [`bday_y`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=2) | H1GI1Y | 1    | What is your birth date? (year)
 
+### Outcome
 
-### Meta data
-
-[`month, day, year`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=2416)
+[`cigarettes`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=2075)
 
 | code    | wave | description
 | :------ | :--- | :----------
-| IMONTH  | 1-4  |  Month interview completed
-| IDAY    | 1-4  |  Day interview completed
-| IYEAR   | 1-4  |  Year interview completed
+| H1TO5   | 1    | During the past 30 days, on how many days did you smoke cigarettes?
+| H2TO5   | 2    | During the past 30 days, on how many days did you smoke cigarettes?
+| H3TO7   | 3    | During the past 30 days, on how many days did you smoke cigarettes?
+| H4TO5   | 4    | During the past 30 days, on how many days did you smoke cigarettes?
 
-### Depedent Variable
+### Time-varying depression (totaled to compute CES-D)
 
 [`disliked`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1067)
 
@@ -111,40 +105,12 @@
 | H3SP9   | 3    | How often was the following true during the past seven days? You were depressed.
 | H4MH22  | 4    | How often was the following true during the past seven days? You felt depressed.
 
-### Longitudinal covariates
+### Meta data
 
-[`cigarettes`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=2075)
-
-| code    | wave | description
-| :------ | :--- | :----------
-| H1TO5   | 1    | During the past 30 days, on how many days did you smoke cigarettes?
-| H2TO5   | 2    | During the past 30 days, on how many days did you smoke cigarettes?
-| H3TO7   | 3    | During the past 30 days, on how many days did you smoke cigarettes?
-| H4TO5   | 4    | During the past 30 days, on how many days did you smoke cigarettes?
-
-[`marijuana`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=2123)
+[`month, day, year`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=2416)
 
 | code    | wave | description
 | :------ | :--- | :----------
-| H1TO32  | 1    | During the past 30 days, how many times did you use marijuana?
-| H2TO46  | 2    | During the past 30 days, how many times did you use marijuana?
-| H3TO110 | 3    | During the past 30 days, how many times have you used marijuana?
-| H4TO71  | 4    | During the past 30 days, on how many days did you use marijuana?
-
-[`drunk`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=2010)
-
-| code    | wave | description
-| :------ | :--- | :----------
-| H1TO18  | 1    | Over the past 12 months, on how many days have you gotten drunk or "very, very high" on alcohol?
-| H2TO22  | 2    | Over the past 12 months, on how many days have you gotten drunk or "very, very high" on alcohol?
-| H3TO43  | 3    | During the past 12 months, on how many days have you been drunk or very high on alcohol?
-| H4TO38  | 4    | During the past 12 months, on how many days have you been drunk or very high on alcohol?
-
-[`drink`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=2008)
-
-| code    | wave | description
-| :------ | :--- | :----------
-| H1TO15  | 1    | During the past 12 months, on how many days did you drink alcohol?
-| H2TO19  | 2    | During the past 12 months, on how many days did you drink alcohol?
-| H3TO38  | 3    | During the past 12 months, on how many days did you drink alcohol?
-| H4TO35  | 4    | During the past 12 months, on how many days did you drink alcohol?
+| IMONTH  | 1-4  |  Month interview completed
+| IDAY    | 1-4  |  Day interview completed
+| IYEAR   | 1-4  |  Year interview completed
