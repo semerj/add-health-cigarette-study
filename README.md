@@ -22,95 +22,29 @@ Publically available data was obtained online from the [Odum Institute at UNC](h
 
 ### Outcome
 
-[`cigarettes`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=2075)
 
-| code    | wave | description
-| :------ | :--- | :----------
-| H1TO5   | 1    | During the past 30 days, on how many days did you smoke cigarettes?
-| H2TO5   | 2    | During the past 30 days, on how many days did you smoke cigarettes?
-| H3TO7   | 3    | During the past 30 days, on how many days did you smoke cigarettes?
-| H4TO5   | 4    | During the past 30 days, on how many days did you smoke cigarettes?
+
+| variable      | code    | wave | description
+| :------------ | :------ | :--  | :----------
+|  [`cigarettes`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=2075) | H1TO5, H2TO5, H3TO7, H4TO5 | 1-4   | During the past 30 days, on how many days did you smoke cigarettes?
 
 ### Time-varying depression (totaled to compute CES-D)
 
-[`disliked`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1067)
-
-| code    | wave | description
-| :------ | :--- | :----------
-| H1FS17  | 1    | How often was the following true during the past week? You felt that people disliked you.
-| H2FS17  | 2    | How often was the following true during the past seven days? You felt that people disliked you.
-| H3SP13  | 3    | How often was the following true during the past seven days? You felt that people disliked you.
-| H4MH27  | 4    | How often was the following true during the past seven days? You felt that people disliked you.
-
-[`sad`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1066)
-
-| code    | wave | description
-| :------ | :--- | :----------
-| H1FS16  | 1    | How often was the following true during the past week? You felt sad.
-| H2FS16  | 2    | How often was the following true during the past seven days? You felt sad.
-| H3SP12  | 3    | How often was the following true during the past seven days? You were sad.
-| H4MH26  | 4    | How often was the following true during the past seven days? You felt sad.
-
-[`enjoy_life`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1065)
-
-| code    | wave | description
-| :------ | :--- | :----------
-| H1FS15  | 1    | How often was the following true during the past week? You enjoyed life.
-| H2FS15  | 2    | How often was the following true during the past seven days? You enjoyed life.
-| H3SP11  | 3    | How often was the following true during the past seven days? You enjoyed life.
-| H4MH25  | 4    | How often was the following true during the past seven days? You enjoyed life.
-
-[`tired`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1056)
-
-| code    | wave | description
-| :------ | :--- | :----------
-| H1FS7   | 1    | How often was the following true during the past week? You felt that you were too tired to do things.
-| H2FS7   | 2    | How often was the following true during the past seven days? You felt that you were too tired to do things.
-| H3SP10  | 3    | How often was the following true during the past seven days? You were too tired to do things.
-| H4MH23  | 4    | How often was the following true during the past seven days? You felt that you were too tired to do things.
-
-[`not_good`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1053)
-
-| code    | wave | description
-| :------ | :--- | :----------
-| H1FS4   | 1    | How often was the following true during the past week? You felt you were just as good as other people.
-| H2FS4   | 2    | How often was the following true during the past week? You felt you were just as good as other people.
-| H3SP7   | 3    | How often was the following true during the past seven days? You felt you were just as good as other people.
-| H4MH20  | 4    | How often was the following true during the past seven days? You felt you were just as good as other people.
-
-[`bothered`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1050)
-
-| code    | wave | description
-| :------ | :--- | :----------
-| H1FS1   | 1    | How often was the following true during the past week? You were bothered by things that don't usually bother you.
-| H2FS1   | 2    | How often was the following true during the past week? You were bothered by things that don't usually bother you.
-| H3SP5   | 3    | How often was the following true during the past seven days? You were bothered by things that usually don't bother you.
-| H4MH18  | 4    | How often was the following true during the past seven days? You were bothered by things that usually don't bother you.
-
-[`blues`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1052)
-
-| code    | wave | description
-| :------ | :--- | :----------
-| H1FS3   | 1    | How often was the following true during the past week? You felt that you could not shake off the blues, even with help from your family and your friends.
-| H2FS3   | 2    | How often was the following true during the past week? You felt that you could not shake off the blues, even with help from your family and your friends.
-| H3SP6   | 3    | How often was the following true during the past seven days? You could not shake off the blues, even with help from your family and your friends.
-| H4MH19  | 4    | How often was the following true during the past seven days? You could not shake off the blues, even with help from your family and your friends.
-
-[`depressed`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1055)
-
-| code    | wave | description
-| :------ | :--- | :----------
-| H1FS6   | 1    | How often was the following true during the past week? You felt depressed.
-| H2FS6   | 2    | How often was the following true during the past seven days? You felt depressed.
-| H3SP9   | 3    | How often was the following true during the past seven days? You were depressed.
-| H4MH22  | 4    | How often was the following true during the past seven days? You felt depressed.
+| variable      | code    | wave | description
+| :------------ | :------ | :--  | :----------
+| [`disliked`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1067) | H1FS17, H2FS17, H3SP13, H4MH27 | 1-4 | How often was the following true during the past week? You felt that people disliked you.
+| [`sad`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1066) | H1FS16, H2FS16, H3SP12, H4MH26 | 1-4 | How often was the following true during the past week? You felt sad.
+| [`enjoy_life`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1065) | H1FS15, H2FS15, H3SP11, H4MH25 | 1-4 | How often was the following true during the past week? You enjoyed life.
+| [`tired`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1056) | H1FS7, H2FS7, H3SP10, H4MH23 | 1-4 | How often was the following true during the past week? You felt that you were too tired to do things.
+| [`not_good`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1053) | H1FS4, H2FS4, H3SP7, H4MH20 | 1-4 | How often was the following true during the past week? You felt you were just as good as other people.
+| [`bothered`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1050) | H1FS1, H2FS1, H3SP5, H4MH18 | 1-4 | How often was the following true during the past week? You were bothered by things that don't usually bother you.
+| [`blues`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1052) | H1FS3, H2FS3, H3SP6, H4MH19 | 1-4 | How often was the following true during the past week? You felt that you could not shake off the blues, even with help from your family and your friends.
+| [`depressed`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=1055) | H1FS6, H2FS6, H3SP9, H4MH22 | 1-4 | How often was the following true during the past week? You felt depressed.
 
 ### Meta data
 
-[`month, day, year`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=2416)
-
-| code    | wave | description
-| :------ | :--- | :----------
-| IMONTH  | 1-4  |  Month interview completed
-| IDAY    | 1-4  |  Day interview completed
-| IYEAR   | 1-4  |  Year interview completed
+| variable      | code    | wave | description
+| :------------ | :------ | :--  | :----------
+| [`month`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=2416) | IMONTH  | 1-4  |  Month interview completed
+| [`day`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=2416) | IDAY    | 1-4  |  Day interview completed
+| [`year`](http://www.cpc.unc.edu/projects/addhealth/codebooks/ace/tool/variablecollection?VariableCollectionId=2416) | IYEAR   | 1-4  |  Year interview completed
